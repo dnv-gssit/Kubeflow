@@ -1,0 +1,79 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: kubeflow
+  namespace: daaas-system
+spec:
+  generators:
+  - list:
+      elements:
+
+      ## Provides ArgoCD Application Metadata for the `aaw` stack
+      ##
+      ##
+
+      ## Kubeflow (common)
+
+      - app: kubeflow-namespace
+        folder: common
+        version: main
+      - app: kubeflow-roles
+        folder: common
+        version: main
+      - app: oidc-authservice
+        folder: common
+        version: main
+      - app: knative
+        folder: common
+        version: main
+
+      ## Kubeflow (apps)
+
+      - app: admission-webhook
+        folder: apps
+        version: main
+      - app: centraldashboard
+        folder: apps
+        version: main
+      - app: jupyter-web-app
+        folder: apps
+        version: main
+      - app: katib
+        folder: apps
+        version: main
+      - app: notebook-controller
+        folder: apps
+        version: main
+      - app: profiles
+        folder: apps
+        version: main
+      - app: training-operator
+        folder: apps
+        version: main
+
+      ## Kubeflow (contrib)
+
+      - app: seldon
+        folder: apps
+        version: main
+      - app: kserve
+        folder: apps
+        version: main
+
+  template:
+    metadata:
+      name: 'kubeflow-aaw'
+      namespace: daaas-system
+    spec:
+      project: default
+      source:
+        repoURL: 'https://github.com/statcan/aaw-kubeflow-manifests.git'
+        targetRevision: '{{version}}'
+        path: kustomize/{{folder}}/{{app}}/base
+      destination:
+        namespace: daaas-system
+        name: in-cluster
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true

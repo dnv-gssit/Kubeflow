@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+
+## Necessary adjustments for running the `aaw` stack on a local, dev, and CI environment
+##
+##
+
+## Kubeflow (common)
+
+- ../../common/kubeflow-namespace/base
+- ../../common/kubeflow-roles/base
+- ../../common/oidc-authservice/base
+- ../../common/knative/base
+
+## Kubeflow (apps)
+
+- ../../apps/admission-webhook/base
+- ../../apps/centraldashboard/base
+- ../../apps/katib/base
+- ../../apps/jupyter-web-app/base
+- ../../apps/notebook-controller/base
+- ../../apps/profiles/base
+- ../../apps/training-operator/base
+
+## Kubeflow (contrib)
+
+- ../../contrib/seldon/base
+- ../../contrib/kserve/base

@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+
+## Installs Kubeflow upstream along with the AAW kustomizations without the Cloud Native Platform
+##
+## https://github.com/kubeflow/manifests/blob/master/example/kustomization.yaml
+
+## Kubeflow (common)
+
+- ../../common/kubeflow-namespace/base
+- ../../common/kubeflow-roles/base
+- ../../common/oidc-authservice/base
+- ../../common/knative/base
+
+## Kubeflow (apps)
+
+- ../../apps/admission-webhook/base
+- ../../apps/centraldashboard/base
+- ../../apps/katib/base
+- ../../apps/jupyter-web-app/base
+- ../../apps/notebook-controller/base
+- ../../apps/profiles/base
+- ../../apps/training-operator/base
+
+## Kubeflow (contrib)
+
+- ../../contrib/seldon/base
+- ../../contrib/kserve/base
