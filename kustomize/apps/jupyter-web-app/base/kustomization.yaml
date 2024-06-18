@@ -6,3 +6,4 @@ resources:
 
 patchesStrategicMerge:
 - cluster-role.yaml
+- vs.yaml
