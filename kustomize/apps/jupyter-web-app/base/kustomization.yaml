@@ -3,3 +3,6 @@ kind: Kustomization
 
 resources:
 - github.com/kubeflow/manifests/apps/jupyter/jupyter-web-app/upstream/overlays/istio?ref=v1.7.0
+
+patchesStrategicMerge:
+- cluster-role.yaml
