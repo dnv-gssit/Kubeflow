@@ -11,7 +11,7 @@ resources:
 
 - ../../common/kubeflow-namespace/base
 - ../../common/kubeflow-roles/base
-- ../../common/oidc-authservice/base
+# - ../../common/oidc-authservice/base
 - ../../common/knative/base
 
 ## Kubeflow (apps)

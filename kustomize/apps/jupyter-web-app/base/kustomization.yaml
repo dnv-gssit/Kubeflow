@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
 - github.com/kubeflow/manifests/apps/jupyter/jupyter-web-app/upstream/overlays/istio?ref=v1.8.1
 
-patchesStrategicMerge:
-- cluster-role.yaml
+patches:
+- path: vs.yaml
+- path: auth-policy.yaml
 
