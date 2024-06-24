@@ -5,3 +5,5 @@ namespace: kubeflow
 resources:
 - github.com/kubeflow/manifests/apps/profiles/upstream/overlays/kubeflow?ref=v1.8.1
 
+patches:
+  - path: vs.yaml
