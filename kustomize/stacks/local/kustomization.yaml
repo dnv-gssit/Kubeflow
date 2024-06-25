@@ -12,13 +12,13 @@ resources:
 - ../../common/kubeflow-namespace/base
 - ../../common/kubeflow-roles/base
 # - ../../common/oidc-authservice/base
-- ../../common/knative/base
+# - ../../common/knative/base
 
 ## Kubeflow (apps)
 
 - ../../apps/admission-webhook/base
 - ../../apps/centraldashboard/base
-- ../../apps/katib/base
+# - ../../apps/katib/base
 - ../../apps/jupyter-web-app/base
 - ../../apps/notebook-controller/base
 - ../../apps/profiles/base
@@ -26,5 +26,5 @@ resources:
 
 ## Kubeflow (contrib)
 
-- ../../contrib/seldon/base
-- ../../contrib/kserve/base
+# - ../../contrib/seldon/base
+# - ../../contrib/kserve/base
