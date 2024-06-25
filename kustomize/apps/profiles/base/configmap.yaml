@@ -1,7 +1,7 @@
 apiVersion: v1
 data:
   ADMIN: ''
-  ISTIO_INGRESS_GATEWAY_PRINCIPAL: cluster.local/ns/istio-system/sa/global-https-external-default-gateway
+  ISTIO_INGRESS_GATEWAY_PRINCIPAL: cluster.local/ns/istio-system/sa/istio-external-default-ingressgateway
   KFP_UI_PRINCIPAL: cluster.local/ns/kubeflow/sa/ml-pipeline-ui
   NOTEBOOK_CONTROLLER_PRINCIPAL: cluster.local/ns/kubeflow/sa/notebook-controller-service-account
   USERID_HEADER: kubeflow-userid
