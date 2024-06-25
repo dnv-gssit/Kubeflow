@@ -4,7 +4,7 @@ metadata:
   name: volumes-web-app-volumes-web-app
 spec:
   gateways:
-  - kubeflow-gateway
+  - global-https-external-default-gateway
   hosts:
   - '*'
   http:
