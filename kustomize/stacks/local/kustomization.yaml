@@ -18,6 +18,7 @@ resources:
 
 - ../../apps/admission-webhook/base
 - ../../apps/centraldashboard/base
+- ../../apps/volumes-web-app/base
 # - ../../apps/katib/base
 - ../../apps/jupyter-web-app/base
 - ../../apps/notebook-controller/base
