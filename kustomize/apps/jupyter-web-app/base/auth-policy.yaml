@@ -10,4 +10,4 @@ spec:
         - source:
             principals:
               - >-
-                cluster.local/ns/istio-system/sa/global-https-external-default-gateway
+                cluster.local/ns/istio-system/sa/istio-external-default-ingressgateway
