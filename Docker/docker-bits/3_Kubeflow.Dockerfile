@@ -1,6 +1,6 @@
 USER root
+COPY suspend-server.sh /usr/local/bin
 
-# https://github.com/StatCan/aaw-kubeflow-containers/issues/293
 RUN mamba install --quiet \
       'pillow' \
       'pyyaml' \
@@ -10,4 +10,5 @@ RUN mamba install --quiet \
       pip install 'kubeflow-training' && \
       clean-layer.sh && \
       fix-permissions $CONDA_DIR && \
-      fix-permissions /home/$NB_USER
+      fix-permissions /home/$NB_USER && \
+      chmod +x /usr/local/bin/suspend-server.sh

@@ -44,13 +44,13 @@ RUN \
     fix-permissions /home/$NB_USER \
   && \
     # kubectl
-    curl -LO "${KUBECTL_URL}" \
+    curl -kLO "${KUBECTL_URL}" \
     && echo "${KUBECTL_SHA} kubectl" | sha256sum -c - \
     && chmod +x ./kubectl \
     && sudo mv ./kubectl /usr/local/bin/kubectl \
   && \
     # AzureCLI - installation script from Azure
-    curl -sLO "${AZCLI_URL}" \
+    curl -skLO "${AZCLI_URL}" \
     && bash InstallAzureCLIDeb \
     && rm InstallAzureCLIDeb \
     && echo "azcli: ok" \
@@ -61,7 +61,7 @@ RUN \
     && echo "oh-my-zsh: ok" \
   && \
     # argo cli
-    curl -sLO  ${ARGO_CLI_URL}\
+    curl -skLO  ${ARGO_CLI_URL}\
     && echo "${ARGO_CLI_SHA}  argo-linux-amd64.gz"  | sha256sum -c - \
     && gunzip argo-linux-amd64.gz \
     && chmod +x argo-linux-amd64 \
