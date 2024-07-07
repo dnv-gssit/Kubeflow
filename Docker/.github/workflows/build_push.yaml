@@ -5,26 +5,24 @@ on:
       - 'deploy'
 
 jobs:
-  #Any checks that run pre-build
-    pre-build-checks:
-        runs-on: ubuntu-latest
-        steps:
-        - uses: actions/checkout@master
+  pre-build-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
 
-        - name: Assert committed ./output folder matches `make generate-dockerfiles` output
-          run: |
-            sudo apt-get install --yes make
-            make clean
-            make generate-dockerfiles
-            if ! git diff --quiet output/; then
-                echo 'output folder and docker-bits/resources out of sync!'
-                exit 1
-            fi
-        env:
-            REGISTRY_NAME: kubeitglobalsvcauxacrwe
-            LOCAL_REPO: localhost:5000
-            TRIVY_VERSION: "v0.31.3"
-            HADOLINT_VERSION: "2.12.0"
+      - name: Assert committed ./output folder matches `make generate-dockerfiles` output
+        run: |
+          sudo apt-get install --yes make
+          make clean
+          make generate-dockerfiles
+          if ! git diff --quiet output/; then
+              echo 'output folder and docker-bits/resources out of sync!'
+              exit 1
+          fi
+    env:
+      REGISTRY_NAME: kubeitglobalsvcauxacrwe
+      LOCAL_REPO: local
+
 
 
     # needs: pre-build-checks
