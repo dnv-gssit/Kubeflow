@@ -20,7 +20,7 @@ jobs:
               exit 1
           fi
 
-    build-push:
+    build:
         env:
             REGISTRY_NAME: kubeitglobalsvcauxacrwe
             LOCAL_REPO: local
