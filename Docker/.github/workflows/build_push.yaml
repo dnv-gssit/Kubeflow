@@ -5,6 +5,22 @@ on:
       - 'deploy'
 
 jobs:
+  # Any checks that run pre-build
+  pre-build-checks:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Assert committed ./output folder matches `make generate-dockerfiles` output
+      run: |
+        sudo apt-get install --yes make
+        make clean
+        make generate-dockerfiles
+        if ! git diff --quiet output/; then
+            echo 'output folder and docker-bits/resources out of sync!'
+            exit 1
+        fi
+
   build-push:
     env:
       REGISTRY_NAME: kubeitglobalsvcauxacrwe
@@ -16,6 +32,7 @@ jobs:
       matrix:
         notebook:
           - remote-desktop
+
     needs: pre-build-checks
     runs-on: ubuntu-latest
     services:
