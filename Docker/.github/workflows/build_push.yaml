@@ -5,98 +5,91 @@ on:
       - 'deploy'
 
 jobs:
-  # Any checks that run pre-build
-  pre-build-checks:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
+  #Any checks that run pre-build
+    pre-build-checks:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@master
 
-    - name: Assert committed ./output folder matches `make generate-dockerfiles` output
-      run: |
-        sudo apt-get install --yes make
-        make clean
-        make generate-dockerfiles
-        if ! git diff --quiet output/; then
-            echo 'output folder and docker-bits/resources out of sync!'
-            exit 1
-        fi
+        - name: Assert committed ./output folder matches `make generate-dockerfiles` output
+          run: |
+            sudo apt-get install --yes make
+            make clean
+            make generate-dockerfiles
+            if ! git diff --quiet output/; then
+                echo 'output folder and docker-bits/resources out of sync!'
+                exit 1
+            fi
+        env:
+            REGISTRY_NAME: kubeitglobalsvcauxacrwe
+            LOCAL_REPO: localhost:5000
+            TRIVY_VERSION: "v0.31.3"
+            HADOLINT_VERSION: "2.12.0"
 
 
-  build-push:
-    env:
-      REGISTRY_NAME: kubeitglobalsvcauxacrwe
-      LOCAL_REPO: localhost:5000
-      TRIVY_VERSION: "v0.31.3"
-      HADOLINT_VERSION: "2.12.0"
-    strategy:
-      fail-fast: false
-      matrix:
-        notebook:
-          - remote-desktop
+    # needs: pre-build-checks
+    # runs-on: ubuntu-latest
+    # services:
+    #   registry:
+    #     image: registry:2
+    #     ports:
+    #       - 5000:5000
+    # steps:
+    #   - uses: azure/docker-login@v1
+    #     with:
+    #       login-server: ${{ env.REGISTRY_NAME }}.azurecr.io
+    #       username: ${{ secrets.REGISTRY_USERNAME }}
+    #       password: ${{ secrets.REGISTRY_PASSWORD }}
 
-    needs: pre-build-checks
-    runs-on: ubuntu-latest
-    services:
-      registry:
-        image: registry:2
-        ports:
-          - 5000:5000
-    steps:
-      - uses: azure/docker-login@v1
-        with:
-          login-server: ${{ env.REGISTRY_NAME }}.azurecr.io
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
+    #   # Image building/storing locally
+    #   - name: Make Dockerfiles
+    #     run: |
+    #       make generate-dockerfiles
+    #       echo "IMAGE_VERSION=dev" >> "$GITHUB_ENV"
 
-      # Image building/storing locally
-      - name: Make Dockerfiles
-        run: |
-          make generate-dockerfiles
-          echo "IMAGE_VERSION=dev" >> "$GITHUB_ENV"
+    #   - name: Set ENV variables for pushes to master
+    #     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    #     run: |
+    #       echo "REGISTRY=kubeitglobalsvcauxacrwe.azurecr.io" >> "$GITHUB_ENV"
+    #       echo "IMAGE_VERSION=v1" >> "$GITHUB_ENV"
+    #       echo "IS_LATEST=true" >> "$GITHUB_ENV"
 
-      - name: Set ENV variables for pushes to master
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: |
-          echo "REGISTRY=kubeitglobalsvcauxacrwe.azurecr.io" >> "$GITHUB_ENV"
-          echo "IMAGE_VERSION=v1" >> "$GITHUB_ENV"
-          echo "IS_LATEST=true" >> "$GITHUB_ENV"
+    #   - uses: actions/checkout@v2
 
-      - uses: actions/checkout@v2
+    #   - name: Get current notebook name
+    #     id: notebook-name
+    #     shell: bash
+    #     run: echo NOTEBOOK_NAME=${{ matrix.notebook }} >> $GITHUB_OUTPUT
 
-      - name: Get current notebook name
-        id: notebook-name
-        shell: bash
-        run: echo NOTEBOOK_NAME=${{ matrix.notebook }} >> $GITHUB_OUTPUT
+    #   - name: Build image
+    #     id: build-image
+    #     run: make build/${{ matrix.notebook }} REPO=${{ env.LOCAL_REPO }}
 
-      - name: Build image
-        id: build-image
-        run: make build/${{ matrix.notebook }} REPO=${{ env.LOCAL_REPO }}
+    #   - name: Add standard tag names (short sha, sha, and branch) and any other post-build activity
+    #     run: make post-build/${{ matrix.notebook }} REPO=${{ env.LOCAL_REPO }}
 
-      - name: Add standard tag names (short sha, sha, and branch) and any other post-build activity
-        run: make post-build/${{ matrix.notebook }} REPO=${{ env.LOCAL_REPO }}
+    #   - name: Push image to local registry (default pushes all tags)
+    #     run: make push/${{ matrix.notebook }} REPO=${{ env.LOCAL_REPO }}
 
-      - name: Push image to local registry (default pushes all tags)
-        run: make push/${{ matrix.notebook }} REPO=${{ env.LOCAL_REPO }}
+    #   # Push image to ACR
+    #   - name: Test if we should push to ACR
+    #     id: should-i-push
+    #     if: |
+    #       github.event_name == 'push' ||
+    #       (
+    #       github.event_name == 'pull_request'
+    #       )
+    #     run: echo 'boolean=true' >> $GITHUB_OUTPUT
 
-      # Push image to ACR
-      - name: Test if we should push to ACR
-        id: should-i-push
-        if: |
-          github.event_name == 'push' ||
-          (
-          github.event_name == 'pull_request'
-          )
-        run: echo 'boolean=true' >> $GITHUB_OUTPUT
+    #   - name: Pull image back from local repo
+    #     if: steps.should-i-push.outputs.boolean == 'true'
+    #     run: docker pull ${{ steps.build-image.outputs.full_image_name }}
 
-      - name: Pull image back from local repo
-        if: steps.should-i-push.outputs.boolean == 'true'
-        run: docker pull ${{ steps.build-image.outputs.full_image_name }}
+    #   - name: Tag images with real repository
+    #     if: steps.should-i-push.outputs.boolean == 'true'
+    #     run: |
+    #       make post-build/${{ matrix.notebook }} DEFAULT_REPO=$REGISTRY IS_LATEST=$IS_LATEST IMAGE_VERSION=$IMAGE_VERSION SOURCE_FULL_IMAGE_NAME=${{ steps.build-image.outputs.full_image_name }}
 
-      - name: Tag images with real repository
-        if: steps.should-i-push.outputs.boolean == 'true'
-        run: |
-          make post-build/${{ matrix.notebook }} DEFAULT_REPO=$REGISTRY IS_LATEST=$IS_LATEST IMAGE_VERSION=$IMAGE_VERSION SOURCE_FULL_IMAGE_NAME=${{ steps.build-image.outputs.full_image_name }}
-
-      - name: Push image to registry
-        if: steps.should-i-push.outputs.boolean == 'true'
-        run: make push/${{ matrix.notebook }} DEFAULT_REPO=$REGISTRY
+    #   - name: Push image to registry
+    #     if: steps.should-i-push.outputs.boolean == 'true'
+    #     run: make push/${{ matrix.notebook }} DEFAULT_REPO=$REGISTRY
