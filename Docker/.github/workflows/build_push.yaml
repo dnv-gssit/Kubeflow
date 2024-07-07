@@ -56,3 +56,38 @@ build-push:
       shell: bash
       run: |
         echo NOTEBOOK_NAME=${{ matrix.notebook }} >> $GITHUB_OUTPUT
+
+    - name: Build image
+      id: build-image
+      run: make build/${{ matrix.notebook }} REPO=${{ env.LOCAL_REPO }}
+
+    - name: Add standard tag names (short sha, sha, and branch) and any other post-build activity
+      run: make post-build/${{ matrix.notebook }} REPO=${{ env.LOCAL_REPO }}
+
+    - name: Push image to local registry (default pushes all tags)
+      run: make push/${{ matrix.notebook }} REPO=${{ env.LOCAL_REPO }}
+
+      # Push image to ACR
+    - name: Test if we should push to ACR
+      id: should-i-push
+      if: |
+        github.event_name == 'push' ||
+        (
+        github.event_name == 'pull_request'
+        )
+      run: echo 'boolean=true' >> $GITHUB_OUTPUT
+
+    - name: Pull image back from local repo
+      if: steps.should-i-push.outputs.boolean == 'true'
+      run: docker pull ${{ steps.build-image.outputs.full_image_name }}
+
+    - name: Tag images with real repository
+      if: steps.should-i-push.outputs.boolean == 'true'
+      run: >
+        make post-build/${{ matrix.notebook }} DEFAULT_REPO=$REGISTRY IS_LATEST=$IS_LATEST
+        IMAGE_VERSION=$IMAGE_VERSION SOURCE_FULL_IMAGE_NAME=${{ steps.build-image.outputs.full_image_name }}
+
+    - name: Push image to registry
+      if: steps.should-i-push.outputs.boolean == 'true'
+      run: |
+        make push/${{ matrix.notebook }} DEFAULT_REPO=$REGISTRY
