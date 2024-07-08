@@ -14,7 +14,7 @@ RESOURCES := resources
 OUT := output
 TMP := .tmp
 TESTS_DIR := ./tests
-MAKE_HELPERS := ./Docker/make_helpers/
+MAKE_HELPERS := ./make_helpers/
 PYTHON_VENV := .venv
 POST_BUILD_HOOK := post-build-hook.sh
 
@@ -26,8 +26,8 @@ DEFAULT_PORT := 8888
 DEFAULT_NB_PREFIX := /notebook/username/notebookname
 
 
-DEFAULT_TAG := $(shell ./Docker/make_helpers/get_branch_name.sh)
-BRANCH_NAME := $(shell ./Docker/make_helpers/get_branch_name.sh)
+DEFAULT_TAG := $(shell ./make_helpers/get_branch_name.sh)
+BRANCH_NAME := $(shell ./make_helpers/get_branch_name.sh)
 
 .PHONY: clean .output generate-dockerfiles
 

@@ -1,3 +1,7 @@
 .cache
 .env
 manifests/
+scripts/*.Dockerfile
+.venv
+.ipynb_checkpoints/
+.idea
