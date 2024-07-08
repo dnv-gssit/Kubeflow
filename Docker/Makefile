@@ -24,6 +24,10 @@ DEFAULT_REPO := kubeitglobalsvcauxacrwe.azurecr.io
 DEFAULT_PORT := 8888
 DEFAULT_NB_PREFIX := /notebook/username/notebookname
 
+
+DEFAULT_TAG := $(shell ./make_helpers/get_branch_name.sh)
+BRANCH_NAME := $(shell ./make_helpers/get_branch_name.sh)
+
 .PHONY: clean .output generate-dockerfiles
 
 clean:
