@@ -14,7 +14,7 @@ RESOURCES := resources
 OUT := output
 TMP := .tmp
 TESTS_DIR := ./tests
-MAKE_HELPERS := ./make_helpers/
+MAKE_HELPERS := ./Docker/make_helpers/
 PYTHON_VENV := .venv
 POST_BUILD_HOOK := post-build-hook.sh
 
@@ -26,8 +26,8 @@ DEFAULT_PORT := 8888
 DEFAULT_NB_PREFIX := /notebook/username/notebookname
 
 
-DEFAULT_TAG := $(shell ./make_helpers/get_branch_name.sh)
-BRANCH_NAME := $(shell ./make_helpers/get_branch_name.sh)
+DEFAULT_TAG := $(shell ./Docker/make_helpers/get_branch_name.sh)
+BRANCH_NAME := $(shell ./Docker/make_helpers/get_branch_name.sh)
 
 .PHONY: clean .output generate-dockerfiles
 
@@ -96,7 +96,7 @@ pull/%:
 	docker pull $(DARGS) "$${REPO}$(notdir $@)$${TAG}"
 
 build/%: DARGS?=
-build/%: REPO?=$(DEFAULT_REPO)
+build/%: REPO?=kubeitglobalsvcauxacrwe.azurecr.io
 build/%: TAG?=$(DEFAULT_TAG)
 build/%: ## build the latest image
 	# End repo with exactly one trailing slash, unless it is empty
