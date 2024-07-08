@@ -81,9 +81,9 @@ jobs:
             )
           run: echo 'boolean=true' >> $GITHUB_OUTPUT
 
-        # - name: Pull image back from local repo
-        #   if: steps.should-i-push.outputs.boolean == 'true'
-        #   run: docker pull ${{ steps.build-image.outputs.full_image_name }}
+        - name: Pull image back from local repo
+          if: steps.should-i-push.outputs.boolean == 'true'
+          run: docker pull ${{ steps.build-image.outputs.full_image_name }}
 
         - name: Tag images with real repository
           if: steps.should-i-push.outputs.boolean == 'true'
