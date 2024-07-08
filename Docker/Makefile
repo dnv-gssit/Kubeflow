@@ -20,6 +20,7 @@ POST_BUILD_HOOK := post-build-hook.sh
 
 # Default labels
 DEFAULT_REPO := kubeitglobalsvcauxacrwe.azurecr.io
+GIT_SHA := $(shell git rev-parse HEAD)
 
 DEFAULT_PORT := 8888
 DEFAULT_NB_PREFIX := /notebook/username/notebookname
