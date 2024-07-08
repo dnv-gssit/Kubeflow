@@ -16,6 +16,7 @@ TMP := .tmp
 TESTS_DIR := ./tests
 MAKE_HELPERS := ./make_helpers/
 PYTHON_VENV := .venv
+POST_BUILD_HOOK := post-build-hook.sh
 
 # Default labels
 DEFAULT_REPO := kubeitglobalsvcauxacrwe.azurecr.io
