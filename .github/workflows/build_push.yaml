@@ -2,7 +2,7 @@ name: build_and_push
 on:
   push:
     branches:
-      - 'main'
+      - 'deploy'
 
 jobs:
   pre-build-checks:
