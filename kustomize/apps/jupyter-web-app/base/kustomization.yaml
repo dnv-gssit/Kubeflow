@@ -8,3 +8,13 @@ patches:
 - path: vs.yaml
 - path: auth-policy.yaml
 
+
+configMapGenerator:
+- files:
+  - configs/spawner_ui_config.yaml
+  behavior: replace
+  name: jupyter-web-app-config
+  namespace: kubeflow
+
+generatorOptions:
+  disableNameSuffixHash: true
