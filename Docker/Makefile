@@ -115,6 +115,7 @@ post-build/%: export SOURCE_FULL_IMAGE_NAME?=
 post-build/%: export IMAGE_VERSION?=
 post-build/%: export IS_LATEST?=
 post-build/%:
+	@echo "Building target: $@"
 	IMAGE_NAME="$(notdir $@)" \
 	GIT_SHA=$(GIT_SHA) \
 	BRANCH_NAME=$(BRANCH_NAME) \
