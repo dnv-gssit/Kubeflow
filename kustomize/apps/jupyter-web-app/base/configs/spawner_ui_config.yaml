@@ -87,7 +87,7 @@ spawnerFormDefaults:
     options:
       - kubeflownotebookswg/rstudio-tidyverse:latest
 
-  imageGrouoThree:
+  imageGroupThree:
     value: kubeitglobalsvcauxacrwe/remote-desktop:deploy
 
     options:
