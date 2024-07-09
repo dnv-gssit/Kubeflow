@@ -35,7 +35,7 @@ if [ ! -z $IMAGE_VERSION ]; then
     docker tag $SOURCE_FULL_IMAGE_NAME $REPO_IMAGE_NAME:$IMAGE_VERSION
 fi
 
-if [ $IS_LATEST = true ]; then
+if [ $"IS_LATEST" = true ]; then
     echo "Tagging with LATEST"
     docker tag $SOURCE_FULL_IMAGE_NAME $REPO_IMAGE_NAME:latest
 fi
