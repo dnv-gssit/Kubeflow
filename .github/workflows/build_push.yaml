@@ -62,17 +62,18 @@ jobs:
           shell: bash
           run: echo NOTEBOOK_NAME=${{ matrix.notebook }} >> $GITHUB_OUTPUT
 
+
+        - name: Add standard tag names (short sha, sha, and branch) and any other post-build activity
+          run: make post-build/${{ matrix.notebook }} REPO=${{ env.LOCAL_REPO }}
+
         - name: Build image
           id: build-image
           run: |
             cd Docker
             make build/${{ matrix.notebook }} REPO=${{ env.LOCAL_REPO }}
 
-        - name: Add standard tag names (short sha, sha, and branch) and any other post-build activity
-          run: make post-build/${{ matrix.notebook }} REPO=${{ env.LOCAL_REPO }}
-
-        - name: Push image to local registry (default pushes all tags)
-          run: make push/${{ matrix.notebook }} REPO=${{ env.LOCAL_REPO }}
+        # - name: Push image to local registry (default pushes all tags)
+        #   run: make push/${{ matrix.notebook }} REPO=${{ env.LOCAL_REPO }}
 
         # Push image to ACR
         - name: Test if we should push to ACR
