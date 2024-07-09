@@ -3,7 +3,11 @@ on:
   push:
     branches:
       - 'deploy'
-
+    pull_request:
+      types:
+        - 'opened'
+        - 'reopened'
+        - 'synchronize'
 jobs:
   pre-build-checks:
     runs-on: ubuntu-latest
@@ -38,11 +42,11 @@ jobs:
               echo "REGISTRY=kubeitglobalsvcauxacrwe.azurecr.io" >> "$GITHUB_ENV"
               echo "IMAGE_VERSION=dev" >> "$GITHUB_ENV"
 
-      # Image building/storing locally
-        - name: Make Dockerfiles
-          run: |
-              make generate-dockerfiles
-              echo "IMAGE_VERSION=dev" >> "$GITHUB_ENV"
+      # # Image building/storing locally
+      #   - name: Make Dockerfiles
+      #     run: |
+      #         make generate-dockerfiles
+      #         echo "IMAGE_VERSION=dev" >> "$GITHUB_ENV"
 
         - name: Set ENV variables for pushes to master
           if: github.event_name == 'push' && github.ref == 'refs/heads/master'
