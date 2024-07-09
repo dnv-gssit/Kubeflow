@@ -19,8 +19,8 @@ REPO_IMAGE_NAME="${REPO}${IMAGE_NAME}"
 SOURCE_FULL_IMAGE_NAME=${SOURCE_FULL_IMAGE_NAME:-${REPO_IMAGE_NAME}:${TAG}}
 echo "Adding tags to $SOURCE_FULL_IMAGE_NAME"
 
-echo "Tagging with GIT_SHA ($GIT_SHA)"
-docker tag $SOURCE_FULL_IMAGE_NAME $REPO_IMAGE_NAME:$GIT_SHA
+# echo "Tagging with GIT_SHA ($GIT_SHA)"
+# docker tag $SOURCE_FULL_IMAGE_NAME $REPO_IMAGE_NAME:$GIT_SHA
 
 SHORT_SHA=$(echo "${GIT_SHA}" | cut -c1-8)  # first 8 characters of SHA
 echo "Tagging with SHORT_SHA ($SHORT_SHA)"
