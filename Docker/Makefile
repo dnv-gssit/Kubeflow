@@ -110,12 +110,11 @@ build/%: ## build the latest image
 	echo "image_repo=$${REPO}" >> $(GITHUB_OUTPUT)
 
 post-build/%: export REPO?=$(DEFAULT_REPO)
-post-build/%: export TAG?=$(DEFAULT_TAG)s
+post-build/%: export TAG?=$(DEFAULT_TAG)
 post-build/%: export SOURCE_FULL_IMAGE_NAME?=
 post-build/%: export IMAGE_VERSION?=
 post-build/%: export IS_LATEST?=
 post-build/%:
-	# TODO: could check for custom hook in the build's directory
 	IMAGE_NAME="$(notdir $@)" \
 	GIT_SHA=$(GIT_SHA) \
 	BRANCH_NAME=$(BRANCH_NAME) \
