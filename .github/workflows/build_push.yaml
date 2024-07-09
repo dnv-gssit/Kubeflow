@@ -68,8 +68,8 @@ jobs:
             cd Docker
             make build/${{ matrix.notebook }} REPO=${{ env.LOCAL_REPO }}
 
-        - name: Push image to local registry (default pushes all tags)
-          run: make push/${{ matrix.notebook }} REPO=${{ env.LOCAL_REPO }}
+        # - name: Push image to local registry (default pushes all tags)
+        #   run: make push/${{ matrix.notebook }} REPO=${{ env.LOCAL_REPO }}
 
 
         - name: Add standard tag names (short sha, sha, and branch) and any other post-build activity
