@@ -34,6 +34,7 @@ jobs:
             matrix:
                 notebook:
                     - remote-desktop
+
         needs: pre-build-checks
         runs-on: ubuntu-latest
         steps:
@@ -41,6 +42,15 @@ jobs:
           run: |
               echo "REGISTRY=kubeitglobalsvcauxacrwe.azurecr.io" >> "$GITHUB_ENV"
               echo "IMAGE_VERSION=dev" >> "$GITHUB_ENV"
+
+
+        - uses: actions/checkout@master
+
+        - name: Echo disk usage before clean up
+          run: ./.github/scripts/echo_usage.sh
+
+        - name: Free up all available disk space before building
+          run: ./.github/scripts/cleanup_runner.sh
 
           # Connect to Azure Container registry (ACR)
         - uses: azure/docker-login@v1
