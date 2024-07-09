@@ -64,7 +64,10 @@ jobs:
 
 
         - name: Add standard tag names (short sha, sha, and branch) and any other post-build activity
-          run: make post-build/${{ matrix.notebook }} REPO=${{ env.LOCAL_REPO }}
+          run: |
+            cd Docker
+            make post-build/${{ matrix.notebook }} REPO=${{ env.LOCAL_REPO }}
+
 
         - name: Build image
           id: build-image
