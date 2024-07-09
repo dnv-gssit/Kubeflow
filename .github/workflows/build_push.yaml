@@ -61,10 +61,11 @@ jobs:
         - name: Test Docker Push Permission
           run: |
             echo "FROM scratch" > Dockerfile
-            docker build -t dummy-image:latest .
-            docker push dummy-image:latest || exit 1
-
-
+            docker build -t ${{ secrets.DOCKER_USERNAME }}/dummy-image:latest .
+            docker push ${{ secrets.DOCKER_USERNAME }}/dummy-image:latest || exit 1
+          env:
+            DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+            DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       # Image building/storing locally
       #   - name: Make Dockerfiles
       #     run: |
