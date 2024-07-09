@@ -41,7 +41,6 @@ jobs:
       # Image building/storing locally
         - name: Make Dockerfiles
           run: |
-              cd Docker
               make generate-dockerfiles
               echo "IMAGE_VERSION=dev" >> "$GITHUB_ENV"
 
