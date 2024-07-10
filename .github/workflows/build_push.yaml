@@ -28,6 +28,7 @@ jobs:
   build-push:
         env:
             REGISTRY_NAME: kubeitglobalsvcauxacrwe
+            REGISTRY_FULL_NAME: kubeitglobalsvcauxacrwe.azurecr.io
             LOCAL_REPO: local
         strategy:
             fail-fast: false
@@ -53,7 +54,7 @@ jobs:
           # Connect to Azure Container registry (ACR)
         - uses: docker/login-action@v3
           with:
-            registry: ${{ env.REGISTRY_NAME }}.azurecr.io
+            registry: ${{ env.REGISTRY_FULL_NAME }}
             username: ${{ secrets.REGISTRY_USERNAME }}
             password: ${{ secrets.REGISTRY_PASSWORD }}
 
