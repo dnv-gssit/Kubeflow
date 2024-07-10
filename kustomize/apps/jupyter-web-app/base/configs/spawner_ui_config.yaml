@@ -86,7 +86,7 @@ spawnerFormDefaults:
     # the list of available container images in the dropdown
     options:
       - kubeflownotebookswg/rstudio-tidyverse:latest
-      - kubeitglobalsvcauxacrwe/remote-desktop:deploy
+      - kubeitglobalsvcauxacrwe.azurecr.io/remote-desktop:deploy
 
   ################################################################
   # CPU Resources
