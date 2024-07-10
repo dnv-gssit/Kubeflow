@@ -26,7 +26,7 @@ spawnerFormDefaults:
 
     # the default ImagePullPolicy
     # (possible values: "Always", "IfNotPresent", "Never")
-    value: IfNotPresent
+    value: Always
 
   ################################################################
   # Jupyter-like Container Images
