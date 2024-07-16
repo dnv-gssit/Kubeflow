@@ -4,5 +4,5 @@ kind: Kustomization
 resources:
 - github.com/kubeflow/manifests/apps/katib/upstream/installs/katib-with-kubeflow?ref=v1.7.0
 
-patches:
-  - path: vs.yaml
+# patches:
+#   - path: vs.yaml
