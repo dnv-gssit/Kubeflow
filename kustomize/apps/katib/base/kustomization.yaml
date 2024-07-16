@@ -6,3 +6,4 @@ resources:
 
 patches:
   - path: vs.yaml
+  - path: auth-policy.yaml
