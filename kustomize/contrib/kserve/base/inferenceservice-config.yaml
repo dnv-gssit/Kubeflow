@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: inferenceservice-config
+  namespace: kubeflow
+data:
+  ingress: |-
+    {
+        "ingressGateway" : "istio-system/global-https-external-default-gateway",
+        "ingressService" : "istio-external-default-ingressgateway.istio-system.svc.cluster.local"
+    }
